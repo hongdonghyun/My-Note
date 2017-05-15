@@ -205,10 +205,10 @@ ex)네이버 로그인
 마크업 언어가 실제 표시되는 방법을 기술하는 언어		
 레이아웃과 스타일을 정의할때 사용
 
-선언예시)
+선언예시)```
 selector {
 	property: value;
-	}
+	}```
 **selector**: 선택자(규칙을 어디에 적용할지 결정)
 **property**: 속성	
 **value**: 값
@@ -229,11 +229,11 @@ selector {
 
 # CSS선택자
  *(Asterisk)기호를 사용
- 
+ ```
  ex) * {
  padding: 0;
  margin: 0;
- }	
+ }	```
  *주로 페이지 내부요소를 초기화,기본값 설정시에 주로사용 모든요소를 탐색하기에 로딩시간이 길어짐 자주사용하지 않는것이 좋다.*	
  
  **#은 id .(dot)은 class**
@@ -246,31 +246,35 @@ selector {
 
 ex)	
 **하위 선택자**	
+```
 section ul {	
 	border: 1px solid black;	
 	}
+```
 
 *하위 선택자는 부모요소에 포함된 '모든'하위 요소를 지정한다.*
 
 **자식 선택자**	
+```
 section > ul {	
 	border: 1px solid black;	
 	}
+```
 
 *자식 선택자는 **'부모요소'**바로 아래 '자식요소**'만'**을 지정한다.*
 
 **인접 형제 선택자**
-
+```
 h1 + u1 {	
 	background: azure;	
 	color: darkblue;	
-	}
+	}```
 
 선언된 조건을 충족하는 **'첫번째'동생 요소**만을 지정함	
-
+```
 h1 ~ ul {	
 	background: azure;	
 	color: darkblue;	
-	}	
+	}	```
 	
 선언된 조건을 충족하는 **'모든'동생 요소**를 지정함
