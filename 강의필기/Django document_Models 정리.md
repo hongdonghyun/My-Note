@@ -153,7 +153,7 @@ class Car(models.Model):
 
 ### Many to Many
 
-다대다 관계를 사용하려면 Many To ManyField를 사용해야한다.
+다대다 관계를 사용하려면 ManyToManyField를 사용해야한다.
 
 ```
 예시)
@@ -170,7 +170,7 @@ class Pizza(models.Model):
 피자에는 여러개의 토핑이 올라간다.
 토핑 또한 여러피자에 올라갈 수있으므로 위와같은 예시를 보여준다.
 > ManyToManyField는 서로 참조 하는 관계 두 필드중 하나에만 들어가야한다.
-> 
+
 > 일반적으로 편집해야할 필드에 들어간다. 
 > (피자위에 올라가는 토핑을 수정하는게 더 자연스럽다)
 
