@@ -19,12 +19,15 @@ CREATE TABLE myapp_person (
 );
 ```
 django에서 모델을 사용하기 위해서는
-projectnamefolder의 settings.py파일의 ```INSTALLED_APPS```속성에 사용하는 app을 넣고
-```	
-./manaege.py makemigrations```
+projectnamefolder의 settings.py파일의 `INSTALLED_APPS`속성에 사용하는 app을 넣고
+
+`
+./manaege.py makemigrations
+`
 를 실행해야한다.
 
 ##field
+
 ###null
 
 ```
@@ -69,7 +72,9 @@ p.save()
 p.shirt_size
 p.get_shirt_size_display()
 ```
+
 ###default
+
 필드의 기본값을 정할수 있다.
 
 ###help_text
@@ -77,7 +82,9 @@ p.get_shirt_size_display()
 ```
 help_text="Please use the following format: <em>YYYY-MM-DD</em>."
 ```
+
 ###primary_key
+
 Django는 기본 키를 보유 할 자동 필드를 자동으로 추가하므로 해당 필드를 재정의하려는 경우를 제외하고는 모든 필드에서 ```primary_key = True```를 설정하지 않아도 된다.
 
 ```primary_key = True```는
@@ -86,10 +93,11 @@ Django는 기본 키를 보유 할 자동 필드를 자동으로 추가하므로
 하나의 기본 키만 객체에 허용되며 기본 키 필드는 읽기 전용이다.
 
 ###unique
+
 참이면 필드는 테이블 전체에서 고유해야한다. **유일성**
 
-
 ###verbose_name
+
 필드명을 지정하지 않았을 경우 ```ForeignKey```,```ManyToManyField```,```OneToOneField```를 제외한 필드는 자동으로 변수명을 입력해주지만 
 ```verbose_name```변수에 입력해둔다면 원하는 값으로 지정할 수 있다.
 
@@ -100,9 +108,10 @@ first_name = models.CharField("person's first name", max_length=30)
 
 last_name = models.CharField(max_length=30)
 ```
-```first_name의 verbose_name```은 **"preson's first name"**이 되고
 
-```last_name의 verbose_name```은 **"last_name"**이 된다.
+`first_name의 verbose_name`은 **"preson's first name"**이 되고
+
+`last_name의 verbose_name`은 **"last_name"**이 된다.
 
 `ForeignKey`,`ManyToManyField`,`OneToOneField`의 경우 `verbose_name`이라는 인자를 사용하여 직접 지정해야한다.
 
@@ -123,6 +132,7 @@ place = models.OneToOneField(
 ```
 
 ##Relationsship
+
 Django는 다대일,다대다,일대일 데이터베이스 관계를 제공한다.
 
 - Many To One (다대일)
@@ -130,6 +140,7 @@ Django는 다대일,다대다,일대일 데이터베이스 관계를 제공한�
 - One To One(일대일)
 
 ###Many to one 
+
 다대일 관계를 정의하려면
 
 django.db.models.ForeignKey를 사용해야한다.
@@ -148,12 +159,14 @@ class Car(models.Model):
     manufacturer = models.ForeignKey(Manufacturer, on_delete=models.CASCADE)
     # ...
 ```
+
 자동차를 만드는 공장에서 여러종류의 자동차를 만들기 때문에 car필드에서 외래키를 가진다.
+
 >다대일 관계는 항상 '다'쪽에 외래키가 존재하며 양방향 관계는 항상 서로를 참조해야한다.
 
 ### Many to Many
 
-다대다 관계를 사용하려면 Many To ManyField를 사용해야한다.
+다대다 관계를 사용하려면 ManyToManyField를 사용해야한다.
 
 ```
 예시)
@@ -167,10 +180,12 @@ class Pizza(models.Model):
     # ...
     toppings = models.ManyToManyField(Topping)
 ```
-피자에는 여러개의 토핑이 올라간다.
+피자에는 여러개의 토핑이 올라간다.	
+
 토핑 또한 여러피자에 올라갈 수있으므로 위와같은 예시를 보여준다.
+
 > ManyToManyField는 서로 참조 하는 관계 두 필드중 하나에만 들어가야한다.
-> 
+
 > 일반적으로 편집해야할 필드에 들어간다. 
 > (피자위에 올라가는 토핑을 수정하는게 더 자연스럽다)
 
