@@ -24,6 +24,7 @@ projectnamefolder의 settings.py파일의 `INSTALLED_APPS`속성에 사용하는
 `
 ./manaege.py makemigrations
 `
+
 를 실행해야한다.
 
 ##field
