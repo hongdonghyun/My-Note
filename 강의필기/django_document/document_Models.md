@@ -1,4 +1,7 @@
 # Models
+
+[장고문서](https://docs.djangoproject.com/en/1.11/topics/db/models/)
+
 모델이란 django에서 DB(테이블과 필드)를 관리할 수 있는 모듈이다.
 
 ## 예시
@@ -22,12 +25,12 @@ django에서 모델을 사용하기 위해서는
 projectnamefolder의 settings.py파일의 `INSTALLED_APPS`속성에 사용하는 app을 넣고
 
 `
-./manaege.py makemigrations
+./manage.py makemigrations
 `
 
 를 실행해야한다.
 
-## field
+## field options
 
 ### null
 
@@ -50,6 +53,8 @@ blank는 빈 문자열이 들어가 있다.
 
 ### choice
 튜플이 담겨있는 리스트가 전달이 되면 선택가능항목이 된다.
+튜플의 앞의요소는 DB에 저장될 요소이고
+뒤요소는 화면에서 선택되는 요소이다.
 
 ```
 class Person(models.Model):
@@ -73,6 +78,19 @@ p.save()
 p.shirt_size
 p.get_shirt_size_display()
 ```
+### shell
+셸에서 확장하기	
+pip install django_extensions
+
+`settings = 'django_extensions'`
+추가
+
+pip install django-shell-plus
+
+pip install ipython
+
+./manage.py shell_plus --ipython
+
 
 ### default
 
@@ -110,9 +128,9 @@ first_name = models.CharField("person's first name", max_length=30)
 last_name = models.CharField(max_length=30)
 ```
 
-`first_name의 verbose_name`은 **"preson's first name"**이 되고
+`first_name의 verbose_name`은 **person's first name**이 되고
 
-`last_name의 verbose_name`은 **"last_name"**이 된다.
+`last_name의 verbose_name`은 **last_name**이 된다.
 
 `ForeignKey`,`ManyToManyField`,`OneToOneField`의 경우 `verbose_name`이라는 인자를 사용하여 직접 지정해야한다.
 
@@ -293,7 +311,7 @@ MetaData를 추가하는건 필수가 아닌 선택이다.
 
 예시)
 `Post.objects.all()` 
-`Post.objcets.create(something)`
+`Post.objects.create(something)`
 
 특별히 지정해 주지않는한 `objects`로 사용하면 된다.
 
@@ -448,5 +466,20 @@ class BookReview(Book, Article):
 여러개를 받는것이 다중상속이다.
 
 
+### Organizing models in a package
+
+`app`안에 `models` 패키지 폴더를 만들고
+
+모듈화할 클래스들을 `.py`로 나눈다.
+
+`__init__.py`안에 
+
+예시)
+
+```
+from .car import Car,ManuFacturer
+from .person import Person
+```
+이렇게 넣으면 된다.
 
 
