@@ -1,0 +1,10 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+{% for x in post %}
+{{ x.author }}
+{{ x.photo }}
+{{ x.content }}
+
+{% endblock %}
