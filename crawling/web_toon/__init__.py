@@ -1,0 +1,151 @@
+import os
+
+import requests
+from bs4 import BeautifulSoup
+
+
+class NaverWebtoonCrawler:
+    # url 주소 base
+    _url_detail_base = 'http://comic.naver.com/webtoon/detail.nhn?' \
+                       'titleId={webtoon_id}&' \
+                       'no={episode_num}&' \
+                       'weekday={day}'
+
+    def __init__(self, webtoon_id, day):  # parameter id
+        self.webtoon_id = webtoon_id
+        self.day = day
+
+    def crawl_page(self, page_num):
+        return '해당 페이지의 에피소드 리스트'
+
+    def crawl_episode(self, episode_num=None):
+        """
+        webtoon_id에 해당하는 웹툰의 episode_num화 내부의 이미지를 저장
+        :param episode_num:
+        :return:
+        """
+        dir_path = '{}/{}'.format(self.webtoon_id, episode_num)  # 폴더 directory
+
+        def make_episode_dir():
+            # 이미지를 저장하기 위한 폴더 생성
+            print(dir_path)
+            # exists로 이미 생성하려는 폴더가 있는지 검사
+            if not os.path.exists(dir_path):
+                os.makedirs(dir_path)
+                print('dir created')
+            print('dir exist')
+
+            # try~except구문으로 이미 폴더가 존재할경우 예외처리
+            try:
+                os.makedirs(dir_path)
+            except FileExistsError as e:
+                print('dir exist, error:', e)
+
+            # exist_ok매개변수 추가
+            os.makedirs(dir_path, exist_ok=True)
+
+        def get_img_tag_list():
+            """
+            디테일페이지에서 img Tag(bs4)의 리스트를 반환
+            :return:
+            """
+
+            response = requests.get(url_detail)
+
+            soup = BeautifulSoup(response.text, 'lxml')
+            # soup인스턴스에서 select_one메서드를 사용해 웹툰뷰어 태그를 리턴
+            div_wt_viewer = soup.select_one('div.wt_viewer')
+            # 웹튠뷰어 태그에서 img태그들을 전부 찾아 리스트로 반환
+            img_list = div_wt_viewer.find_all('img')
+            # print(img_list)
+
+            return img_list
+
+        if not episode_num:
+            url_detail = self._url_detail_base.format(
+                self.webtoon_id,
+                '마지막 에피소드 넘버 가져오기'
+            )
+        else:
+            url_detail = self._url_detail_base.format(
+                webtoon_id=self.webtoon_id,
+                episode_num=episode_num,
+                day=self.day
+            )  # 조건을 충족 하지 않을경우 webtoon_id, episode_num를 parameter로 받음
+
+        # 이미지를 다운받을 폴더 생성
+        make_episode_dir()
+
+        # 이미지 태그 목록 가져오기
+        img_list = get_img_tag_list()
+
+        # 리스트를 순회하며 각 img태그의 src속성을 출력 및 다운로드
+        for index, img in enumerate(img_list):
+            # 이미지 주소에 get요청
+            headers = {'Referer': url_detail}
+            response = requests.get(img['src'], headers=headers)
+
+            # 요청 결과 (이미지파일)의 binary데이터를 파일에 쓴다
+            img_path = '{}/{:02}.jpg'.format(
+                dir_path,
+                index
+            )
+            with open(img_path, 'wb') as f:
+                f.write(response.content)
+
+                # 해당 에피소드를 볼 수 있는 HTML파일을 생성
+        with open('{}/{:03}.html'.format(self.webtoon_id, episode_num), 'wt') as f:
+            f.write('<html>\n')
+            for i in range(len(img_list)):
+                f.write('\t<img src="{:03}/{:02}.jpg"><br>\n'.format(episode_num, i))
+            f.write('</html>')
+
+        print('에피소드 {}화 저장 완료'.format(episode_num))
+
+    def crawl_all_episodes(self):
+        return ''
+
+
+class NaverWebtoon:
+    def __init__(self, webtoon_id):
+        self.webtoon_id = webtoon_id
+        self.episode_list = []
+
+    def get_info(self):
+        return '정보 리턴'
+
+    def view_last_episode(self):
+        return ''
+
+    def view_episode_list(self, num=1):
+        return ''
+
+    def save_webtoon(self, create_html=False):
+        if create_html:
+            return '다운받은 웹툰을 볼 수 있는 html까지 생성해서 저장'
+        return '특정 경로에 웹툰 전체를 다운받아서 저장'
+
+
+class NaverWebtoonEpisode:
+    # url_thumbnail, title, rating, date는 property로 구현 (전부 읽기전용, private으로 선언하지 말 것)
+    def __init__(self, url_thumbnail, title, rating, date):
+        self._url_thumbnail = url_thumbnail
+        self._title = title
+        self._rating = rating
+        self._date = date
+
+    @property
+    def url_thumbnail(self):
+        return self._url_thumbnail
+
+    @property
+    def title(self):
+        return self._title
+
+    @property
+    def rating(self):
+        return self._rating
+
+    @property
+    def date(self):
+        return self._date

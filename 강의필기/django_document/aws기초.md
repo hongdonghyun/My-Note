@@ -75,7 +75,7 @@ CONFIG_SECRET_DIR= os.path.join(ROOT_DIR,'.config_secret)
 
 CONFIG_SECRET_COMMON_FILE = os.path.join(CONFIG_SECRET_DIR,'settings_common.json)'
 
-CONFIG_SECERT_DEBUG_FILE =
+CONFIG_SECRET_DEBUG_FILE =
 os.path.join(CONFIG_SECRET_DIR,'settings_debug.json')
 
 CONFIG_SECRET_DEPLOY_FILE =
@@ -126,13 +126,14 @@ Launch를 누르면 key pair에 관한 내용이 나온다.
 
 저장한 기본키 파일을 ssh파일에 옮기도록 한다.
 ` mv 저장된곳/privatekeyname ~/.ssh`
-이후 생성하고 이름을 정해준다.
+이후 생성하고 서버의 이름을 정해준다.
 
 하단에 Public DNS가 나오는게 이것이 우리가 사용할 주소가 된다.
 
 그리고 key 파일에 대한 권한을 자기자신만 사용할 수 있도록 바꿔준다.
 
 터미널에서 .ssh폴더로 이동 후 `chmod 400 privatekeyname`을 하면 읽기전용으로 바뀐다.
+
 
 ## ssh설치 및 사용 
 우분투와 macOS는 기본적으로 깔려있다.
@@ -199,8 +200,16 @@ download를 눌러서 받아오던지 따로 적어주던지는 취향껏 한다
  홈폴더(`~`)에서 `.aws`에 접근하면 `config`,`credentials`파일 두개가 보인다.
  
 `config`는 기본 설정된 값들을 볼 수 있고
-`credentials`에서는 `access_key_id`와 `secret_acess_key`값을 볼 수있고 바꾸는것도 가능하다.
+`credentials`에서는 `access_key_id`와 `secret_access_key`값을 볼 수있고 바꾸는것도 가능하다.
 
+```
+ex)
+[새로운 accesskey를 사용하는 인스턴스]
+key_id = ###
+key = ###
+
+`configure --profile 새로운놈`
+```
 
 ## ubuntu 기본 설정
 
